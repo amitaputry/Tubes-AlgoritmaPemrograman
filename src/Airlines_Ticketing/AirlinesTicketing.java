@@ -377,7 +377,7 @@ public class AirlinesTicketing {
                     cetakPemesanan(arrayPesan);
                     break;
                 case 6 :
-                    System.out.println("\nTerima kasih sudah mengunjungi Airline Ticketing^^");
+                    System.out.println("\nTerima kasih sudah mengunjungi Airline Ticketing");
                     break;
             }
         } while (pilih != 5);
