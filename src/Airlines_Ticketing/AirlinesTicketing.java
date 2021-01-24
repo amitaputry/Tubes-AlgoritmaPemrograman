@@ -367,7 +367,7 @@ public class AirlinesTicketing {
 
         for (int i = 0; i < jumlah.length; i++) {
 
-                System.out.print("Nama Penumpang : ");
+                System.out.print("Nama Penumpang: ");
                 Nama_P = DPEkonomi.nextLine();
                 System.out.print("Jenis Kelamin (Pria/Wanita)  : ");
                 jenisKelamin = DPEkonomi.nextLine();
