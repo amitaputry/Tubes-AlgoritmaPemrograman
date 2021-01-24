@@ -365,8 +365,8 @@ public class AirlinesTicketing {
         penumpang = InputData.nextInt();
         int[] jumlah = new int[penumpang];
 
-        for (int i = 0; i <= jumlah.length; i++) {
-            if (penumpang <= i) {
+        for (int i = 0; i < jumlah.length; i++) {
+
                 System.out.print("Nama Penumpang : ");
                 Nama_P = DPEkonomi.nextLine();
                 System.out.print("Jenis Kelamin (Pria/Wanita)  : ");
@@ -383,7 +383,6 @@ public class AirlinesTicketing {
                 CheckDataPenumpang();
             }
         }
-    }
 
     private static void CheckDataPenumpang() {
         String data;
