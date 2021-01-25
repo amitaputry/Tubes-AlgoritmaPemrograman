@@ -1,19 +1,19 @@
 package Airlines_Ticketing;
 
-import java.util.Random;
+
 import java.util.Scanner;
 
 public class AirlinesTicketing {
     //Inisiasi Scanner
     static Scanner InputNumber = new Scanner(System.in);
     static Scanner InputString = new Scanner(System.in);
-    static Scanner DPEkonomi = new Scanner(System.in);
     static int[] harga_E = {1000000, 750000, 500000};
     static int[] harga_B = {2000000, 1750000, 1500000};
     static int[] harga_Eks = {3000000, 2750000, 2500000};
-    static int kelas, penumpang, dewasa, anak, anak1;
+    static int kelas, dewasa, anak, balita;
+    static String jenisPenumpang, jadwalKeberangkatan;
 
-    private static void Header() {
+    private static void showHeader() {
         char admin;
 
         System.out.println("________________________________________________");
@@ -30,7 +30,7 @@ public class AirlinesTicketing {
         }
     }
 
-    private static String[][] Registrasi(String[][] arrayAkun) {
+    private static String[][] doRegistrasi(String[][] arrayAkun) {
 
         System.out.println("\n====> Registrasi Akun <====");
 
@@ -50,7 +50,7 @@ public class AirlinesTicketing {
 
     }
 
-    private static String[][] Login(String[][] arrayAkun) {
+    private static String[][] doLogin(String[][] arrayAkun) {
         int checkFailed = 0;
         String username;
         String password;
@@ -76,41 +76,44 @@ public class AirlinesTicketing {
         else
             System.out.println("Anda berhasil masuk");
 
-        CetakData(arrayAkun);
+        printData(arrayAkun);
         return arrayAkun;
     }
 
-    private static void CetakData(String[][] arrayAkun) {
+    private static void printData(String[][] arrayAkun) {
         System.out.println("\n==> Data akun anda <==");
         System.out.println("Nama\t\t: " + arrayAkun[0][0]);
         System.out.println("Email\t\t: " + arrayAkun[0][1]);
         System.out.println("No. HP\t\t: " + arrayAkun[0][2]);
     }
 
-    private static String[][] TambahPemesanan(String[][] arrayPesan) {
+    private static String[][] TambahDataPemesanan(String[][] arrayPesan) {
         System.out.println("\n===> Pemesanan Tiket <===");
 //        Deklarasi array dengan value untuk backup data
         String[][] Tampung = arrayPesan;
 //        Mengganti array dengan element ditambah satu
-        arrayPesan = new String[Tampung.length + 1][3];
-//        Restore data dari arrayTemp ke arrayMahasiswa
+        arrayPesan = new String[Tampung.length + 1][4];
+//        Restore data dari tamoung ke arrayPesan
         for (int i = 0; i < Tampung.length; i++) {
             arrayPesan[i][0] = Tampung[i][0];
             arrayPesan[i][1] = Tampung[i][1];
             arrayPesan[i][2] = Tampung[i][2];
+            arrayPesan[i][2] = Tampung[i][3];
         }
 //        Menambah Data
-        System.out.print("Nama lengkap\t: ");
-        arrayPesan[Tampung.length][0] = InputString.nextLine();
-        System.out.print("Email\t\t\t: ");
-        arrayPesan[Tampung.length][1] = InputString.nextLine();
-        System.out.print("No. HP\t\t\t: ");
-        arrayPesan[Tampung.length][2] = InputString.nextLine();
+            System.out.print("Nama lengkap\t: ");
+            arrayPesan[Tampung.length][0] = InputString.nextLine();
+            System.out.print("Jenis Kelamin\t: ");
+            arrayPesan[Tampung.length][1] = InputString.nextLine();
+            System.out.print("Usia\t\t\t: ");
+            arrayPesan[Tampung.length][2] = InputString.nextLine();
+            System.out.print("No. HP\t\t\t: ");
+            arrayPesan[Tampung.length][3] = InputString.nextLine();
 
         return arrayPesan;
     }
 
-    private static String[][] HapusPemesanan(String[][] arrayPesan) {
+    private static String[][] DeleteDataPemesanan(String[][] arrayPesan) {
         System.out.println("\n===> Hapus Pemesanan <===");
 
         if (arrayPesan.length == 0) {
@@ -123,7 +126,7 @@ public class AirlinesTicketing {
 
             String[][] Tampung = arrayPesan;
 
-            arrayPesan = new String[Tampung.length - 1][3];
+            arrayPesan = new String[Tampung.length - 1][4];
             for (int i = 0; i < arrayPesan.length; i++) {
                 System.out.println("Proses ke-" + i);
                 if (!Tampung[i][0].equals(removeElement)) {
@@ -131,11 +134,13 @@ public class AirlinesTicketing {
                     arrayPesan[i][0] = Tampung[i][0];
                     arrayPesan[i][1] = Tampung[i][1];
                     arrayPesan[i][2] = Tampung[i][2];
+                    arrayPesan[i][3] = Tampung[i][3];
                 } else {
                     System.out.println();
                     arrayPesan[i][0] = Tampung[i + 1][0];
                     arrayPesan[i][1] = Tampung[i + 1][1];
                     arrayPesan[i][2] = Tampung[i + 1][2];
+                    arrayPesan[i][3] = Tampung[i + 1][3];
                 }
             }
             return arrayPesan;
@@ -143,7 +148,7 @@ public class AirlinesTicketing {
     }
 
 
-    public static void cetakPemesanan(String[][] arrayPesan) {
+    public static void showPemesanan(String[][] arrayPesan) {
         System.out.println("\n===> Cetak Data Pemesanan <===");
 
         if (arrayPesan.length == 0) {
@@ -152,8 +157,10 @@ public class AirlinesTicketing {
             for (int i = 0; i < arrayPesan.length; i++) {
                 System.out.println("Pemesanan ke-" + i);
                 System.out.println("Nama Lengkap\t: " + arrayPesan[i][0]);
-                System.out.println("Email\t\t\t: " + arrayPesan[i][1]);
-                System.out.println("No. HP\t\t\t: " + arrayPesan[i][2]);
+                System.out.println("Jenis Kelamin\t: " + arrayPesan[i][1]);
+                System.out.println("Usia\t\t\t: " + arrayPesan[i][2]);
+                System.out.println("No. HP\t\t\t: " + arrayPesan[i][3]);
+
             }
         }
     }
@@ -180,7 +187,7 @@ public class AirlinesTicketing {
         return arrayPesan;
     }
 
-    private static void menu() {
+    private static void showMenu() {
         System.out.println("\n=====> Menu <=====");
         System.out.println("1. Pesan Tiket\n" +
                 "2. Daftar Pesawat\n" +
@@ -190,29 +197,38 @@ public class AirlinesTicketing {
                 "6. Keluar");
     }
 
-    private static void daftarPesawat() {
+    private static void listMaskapai() {
         System.out.println("\n====> Daftar Maskapai <====");
         System.out.println("1. Garuda Indonesia (GI)\n" +
                 "2. Batik Airline (BA)\n" +
                 "3. LionAir (LA)");
     }
-    private static void menuPenerbangan() {
-        System.out.println("===> Jadwal Penerbangan <===");
+    private static void jadwalPenerbangan() {
+        System.out.println("===> Jadwal dan Tujuan Penerbangan <===");
         System.out.println("1. Pukul 08.00 jakarta - surabaya\n" +
                 "2. Pukul 10.00 Jakarta - bandung\n" +
                 "3. Pukul 12.00 Jakarta - papua");
     }
 
     static String Maskapai;
-
-    private static void pilihMaskapai() {
+    private static void selectMaskapai() {
         do {
             System.out.print("\nPilih Maskapai (GI/BA/LA) : ");
             Maskapai = InputString.next().toLowerCase();
         } while (!"gi".equals(Maskapai) && !"ba".equals(Maskapai) && !"la".equals(Maskapai));
     }
 
-    public static void kelasMaskapai() {
+    public static void selectJadwal() {
+        System.out.println("\n====> Pilih Jadwal Keberangkatan <====");
+        System.out.println("1. Pukul 08.00 WIB ");
+        System.out.println("2. Pukul 10.00 WIB ");
+        System.out.println("3. Pukul 13.00 WIB ");
+        do {
+            System.out.print("\nPilih Jadwal Keberangkatan (1/2/3) : ");
+            jadwalKeberangkatan = InputString.next().toLowerCase();
+        } while (!"1".equals(jadwalKeberangkatan) && !"2".equals(jadwalKeberangkatan) && !"3".equals(jadwalKeberangkatan));
+    }
+    public static void showkelasMaskapai() {
         if ("gi".equals(Maskapai)) {
             System.out.println("\n====> Pilih kelas <====");
             System.out.println("1. Ekonomi\n" +
@@ -238,91 +254,125 @@ public class AirlinesTicketing {
             System.out.println("Data tidak ada");
         }
     }
-    private static void jadwalPenerbangan() {
-        int pilih;
 
-        menuPenerbangan();
-        System.out.print("Pilih jadwal (1-3) : ");
-        pilih = InputNumber.nextInt();
-        if (pilih == 1) {
-            System.out.println("\n1. Pukul 08.00 jakarta - surabaya");
-        } else if (pilih == 2) {
-            System.out.println("\n2. Pukul 10.00 Jakarta - bandung");
-        } else if (pilih == 3) {
-            System.out.println("\n3. Pukul 12.00 Jakarta - papua");
-        } else {
-            System.out.println("\nTidak ada jadwal lain");
-        }
-    }
-
-    public static void pilihKelas() {
+    public static void selectKelas() {
         System.out.print("Pilih kelas : ");
         kelas = InputNumber.nextInt();
 
         if (kelas == 1) {
-            Ekonomi();
+            System.out.println("===> Ekonomi <===");
+            selectPenumpang();
+            showEkonomi();
+            selectJadwal();
+
+
         } else if (kelas == 2) {
-            Bisnis();
+            System.out.println("===> Bisnis <===");
+            selectPenumpang();
+            showBisnis();
+            showEkonomi();
+
         } else if (kelas == 3) {
-            Eksekutif();
+            System.out.println("===> Eksekutif <===");
+            selectPenumpang();
+            showEksekutif();
+            showEkonomi();
         } else {
             System.out.println("Mengganti Maskapai");
+            selectMaskapai();
+        }
+    }
+    public static void selectPenumpang() {
+        System.out.println("\n> Jenis Penumpang <");
+        System.out.println("1. Dewasa (DW) ");
+        System.out.println("2. Anak-anak (AN) ");
+        System.out.println("3. Balita (BL) ");
+        do {
+            System.out.print("\nPilih Jenis Penumpang (DW/AN/BL) : ");
+            jenisPenumpang = InputString.next().toLowerCase();
+        } while (!"dw".equals(jenisPenumpang) && !"an".equals(jenisPenumpang) && !"bl".equals(jenisPenumpang));
+    }
+
+    private static void showEkonomi() {
+        if (!"dw".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            dewasa = InputNumber.nextInt();
+
+            int hargaDewasa = dewasa * harga_E[0];
+            System.out.println("===> Total Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaDewasa);
+
+        } else if (!"an".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            anak = InputNumber.nextInt();
+
+            int hargaAnak = anak * harga_E[1];
+            System.out.println("===> Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaAnak);
+
+        } else if ("bl".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            balita = InputNumber.nextInt();
+
+            int hargaBalita = balita * harga_E[2];
+            System.out.println("===> Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaBalita);
+        } else {
+            System.out.println("Tidak ada data lain");
+        }
+    }
+    private static void showBisnis() {
+        if (!"dw".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            dewasa = InputNumber.nextInt();
+
+            int hargaDewasa = dewasa * harga_B[0];
+            System.out.println("===> Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaDewasa);
+
+        } else if (!"an".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            anak = InputNumber.nextInt();
+
+            int hargaAnak = anak * harga_B[1];
+            System.out.println("===> Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaAnak);
+
+        } else if ("bl".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            balita = InputNumber.nextInt();
+
+            int hargaBalita = balita * harga_B[2];
+            System.out.println("===> Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaBalita);
         }
     }
 
-    private static void JumlahPenumpang() {
-        System.out.print("Masukkan jumlah penumpang : ");
-        penumpang = InputNumber.nextInt();
-        int[] jumlah = new int[penumpang];
+    private static void showEksekutif() {
+        if (!"dw".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            dewasa = InputNumber.nextInt();
 
-        for (int i = 0; i <= jumlah.length; i++) {
-            if (penumpang <= i) {
-                System.out.println("===> Jumlah Penumpang Per-orang <===");
-                System.out.print("Dewasa : ");
-                dewasa = DPEkonomi.nextInt();
-                System.out.print("Anak - anak < 12 tahun : ");
-                anak = DPEkonomi.nextInt();
-                System.out.print("Anak - anak < 2 tahun : ");
-                anak1 = DPEkonomi.nextInt();
-            }
+            int hargaDewasa = dewasa * harga_Eks[0];
+            System.out.println("===> Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaDewasa);
+
+        } else if (!"an".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            anak = InputNumber.nextInt();
+
+            int hargaAnak = anak * harga_Eks[1];
+            System.out.println("===> Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaAnak);
+
+        } else if ("bl".equals(jenisPenumpang)) {
+            System.out.print("Jumlah Penumpang : ");
+            balita = InputNumber.nextInt();
+
+            int hargaBalita = balita * harga_Eks[2];
+            System.out.println("===> Biaya Maskapai <===");
+            System.out.println("Dewasa : " + hargaBalita);
         }
-    }
-
-    private static void Ekonomi() {
-        System.out.println("===> Ekonomi <===");
-        int HD = dewasa * harga_E[0];
-        int HA = anak * harga_E[1];
-        int HA1 = anak1 * harga_E[2];
-
-        System.out.println("Jumlah Penumpang : " + penumpang);
-        System.out.println("Dewasa : " + HD);
-        System.out.println("Anak - anak < 12 tahun : " + HA);
-        System.out.println("Anak - anak < 2 tahun : " + HA1);
-    }
-
-    private static void Bisnis() {
-        System.out.println("===> Ekonomi <===");
-        int HD = dewasa * harga_B[0];
-        int HA = anak * harga_B[1];
-        int HA1 = anak1 * harga_B[2];
-
-        System.out.println("Jumlah Penumpang : " + penumpang);
-        System.out.println("Dewasa : " + HD);
-        System.out.println("Anak - anak < 12 tahun : " + HA);
-        System.out.println("Anak - anak < 2 tahun : " + HA1);
-    }
-
-    private static void Eksekutif() {
-        System.out.println("===> Ekonomi <===");
-
-        int HD = dewasa * harga_Eks[0];
-        int HA = anak * harga_Eks[1];
-        int HA1 = anak1 * harga_Eks[2];
-
-        System.out.println("Jumlah Penumpang : " + penumpang);
-        System.out.println("Dewasa : " + HD);
-        System.out.println("Anak - anak < 12 tahun : " + HA);
-        System.out.println("Anak - anak < 2 tahun : " + HA1);
     }
 
     private static void CheckDataPenumpang() {
@@ -336,45 +386,43 @@ public class AirlinesTicketing {
             System.out.println("===> Data Tersimpan, silahkan melanjutkan pembayaran <===");
         } else {
             System.out.println("==> Mengulang Pengisian Data <===");
-            JumlahPenumpang();
         }
     }
+
     public static void main(String[] args) {
 //        Array untuk menyimpan nim di index ke-0, nama di index ke-1, prodi di index ke-2
         String[][] arrayPesan = new String[0][5];
         String[][] arrayAkun = new String[5][5];
         int pilih;
 
-        Header();
-        Registrasi(arrayAkun);
-        Login(arrayAkun);
+        showHeader();
+        doRegistrasi(arrayAkun);
+        doLogin(arrayAkun);
         do{
-            menu();
+            showMenu();
             System.out.print("Pilih\t: ");
             pilih = InputNumber.nextInt();
             switch (pilih){
                 case 1 :
-                    arrayPesan = TambahPemesanan(arrayPesan);
-                    daftarPesawat();
-                    pilihMaskapai();
-                    jadwalPenerbangan();
-                    JumlahPenumpang();
-                    kelasMaskapai();
-                    pilihKelas();
+                    arrayPesan = TambahDataPemesanan(arrayPesan);
+                    listMaskapai();
+                    selectMaskapai();
+                    showkelasMaskapai();
+                    selectKelas();
                     CheckDataPenumpang();
                     break;
                 case 2 :
-                    daftarPesawat();
+                    listMaskapai();
                     break;
                 case 3:
-                    menuPenerbangan();
+                    jadwalPenerbangan();
                     break;
                 case 4 :
-                    arrayPesan = HapusPemesanan(arrayPesan);
+                    arrayPesan = selectionAsc(arrayPesan);
+                    showPemesanan(arrayPesan);
                     break;
                 case 5 :
-                    selectionAsc(arrayPesan);
-                    cetakPemesanan(arrayPesan);
+                    DeleteDataPemesanan(arrayPesan);
                     break;
                 case 6 :
                     System.out.println("\nTerima kasih sudah mengunjungi Airline Ticketing");
@@ -383,3 +431,4 @@ public class AirlinesTicketing {
         } while (pilih != 5);
     }
 }
+
